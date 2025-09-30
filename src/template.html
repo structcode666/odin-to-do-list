@@ -6,6 +6,74 @@
     <title>To Do List</title>
 </head>
 <body>
+
+    <div class="main">
+        <div class="header">
+            <div class="logo-icon"></div>
+            <div class="logo-text">AGILE VERIFICATION</div>
+        </div>
+        <div class="sidebar-projects">
+            <button class="new-project">Add Project</button>
+            <div class="projects"></div>
+            <dialog  class = "modal" id = "modal"> 
+                <div class="form-content">
+                    <span class = "close"> &times; </span>
+                    <div class="form">
+                        <h1 class="form-title">Add Project</h1>
+                        <form action="post" class="user-input">
+                            <div class="form-input-field">
+                                <label for="project-title">Title</label>
+                                <input type="text" id = "project-title" name="project-title" required>
+                            </div>
+                            <div class="form-submit-field">
+                                <button type = "submit" class="submit-button">ADD PROJECT</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+        <div class="maincontent-verification">
+            <button class="new-to-do">Add To Do</button>
+            <dialog  class = "modal" id = "to-do-modal"> 
+                <div class="form-content">
+                    <span class = "to-do-close"> &times; </span>
+                    <div class="form">
+                        <h1 class="form-title">Add To Do</h1>
+                        <form action="post" class="to-do-input">
+                            <div class="form-input-field">
+                                <label for="to-do-title">Title</label>
+                                <input type="text" id = "to-do-title" name="to-do-title" required>
+                            </div>
+                            <div class="form-input-field">
+                                <label for="to-do-description">Description</label>
+                                <input type="text" id = "to-do-title" name="to-do-title" required>
+                            </div>
+                            <div class="form-input-field">
+                                <label for="to-do-due-date">Description</label>
+                                <input type="date" id = "to-do-due-date" name="to-do-due-date" required>
+                            </div>
+                            <div class="form-input-field">
+                                <label for="to-do-priority">Priority</label>
+                                <select id = "to-do-priority" name="to-do-priority">
+                                    <option value = "low"> Low </option>
+                                    <option value = "medium"> Medium </option>
+                                    <option value = "high"> High </option>
+                                </select>
+                            </div>
+                            <div class="form-submit-field">
+                                <button type = "submit" class="submit-to-do-button">ADD TO DO</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+    </div>
+
+
     
 </body>
 </html>
+
+

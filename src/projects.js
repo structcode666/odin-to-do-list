@@ -48,9 +48,6 @@ class Project{
         } else {
             console.log("To do list is empty")
         }
-
-
-
     }
 
     sorttoDos(){
