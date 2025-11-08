@@ -1,5 +1,7 @@
-import { displayProject, setActiveProject } from "./dom";
+import { displayProject, setActiveProject, getActiveProject, displayToDo} from "./dom";
 import { Project } from "./projects";
+import { toDoItem } from "./toDo";
+import { storeProject, reconstructProject, getProject} from "./storage";
 
 const newProjectButton = document.querySelector(".new-project")
 const closeProjectModalButton = document.querySelector(".close")
@@ -21,10 +23,14 @@ export function addNewProject(){
 }
 
 export function addNewToDo(){
-    newToDoButton.addEventListener('click', ()=> {
-    toDoModal.showModal();
-    
-})
+
+    document.addEventListener('click', (e)=>{
+
+        if(e.target.classList.contains('new-to-do')){
+            toDoModal.showModal();
+        }
+
+    })
 }
 
 export function closeProjectModal(){
@@ -41,6 +47,8 @@ export function closeToDoModal(){
 
 }
 
+
+
 export function createProject(){
 
     submitProjectButton.addEventListener('click', (e)=>{
@@ -56,17 +64,23 @@ export function createProject(){
     //define new project the user adds from the form as an object//
     for (let [name, value] of formData){
         newProject = new Project(value)
+        
     };
     displayProject(newProject);
+    storeProject(newProject);
     setActiveProject();
     form.reset();
     modal.close();
+
+    
 })
+
 
 }
 
 
 export function assignToDos(){
+
 
     submitToDoButton.addEventListener('click', (e)=>{
 
@@ -76,15 +90,21 @@ export function assignToDos(){
     //retreive formdata as key value pair objects//
     const formData = new FormData(toDoForm);
 
-    console.log(formData.name)
+    let data = Object.fromEntries(formData.entries())
 
-    //  for (let [name, value] of formData){
-    //     console.log(`The first element of the form is ${name} and the corresponding value is ${value}`)
-    // };
+    let newToDo = new toDoItem(data['to-do-title'], data['to-do-description'], data['to-do-due-date'], data['to-do-priority'])
 
+    let activeProject = getActiveProject();
     
+    activeProject.addToDo(newToDo)
+
+    displayToDo(activeProject);
+    storeProject(activeProject);
+
     toDoForm.reset();
     toDoModal.close();
-})
 
+    })
 }
+
+

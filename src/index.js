@@ -3,6 +3,7 @@ import { Project } from "./projects.js"
 import { storeProject } from "./storage.js"
 import { displayProject, setActiveProject } from "./dom.js"
 import { addNewProject, closeProjectModal, createProject, addNewToDo, closeToDoModal, assignToDos} from "./modal.js"
+import { appInit } from "./appInit.js"
 import "./styles.css"
 import "./reset.css"
 
@@ -25,12 +26,14 @@ import "./reset.css"
 // displayProject(testProject)
 // displayProject(testProjectTwo)
 // displayProject(testPorjectThree)
+
 addNewProject()
 closeProjectModal()
 createProject()
 addNewToDo()
 closeToDoModal()
 assignToDos()
+appInit()
 
 
 

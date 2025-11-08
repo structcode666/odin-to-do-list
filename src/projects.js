@@ -25,12 +25,26 @@ class Project{
 
         this.projectName = projectName;
         this.toDoList = []
+        
     }
 
-    addtoDo(...toDo){
+    addToDo(newToDo){
 
-        this.toDoList.push(...toDo)
+        let isDuplicate = this.checkDuplicateToDo(newToDo)
 
+        if (!isDuplicate){
+            this.toDoList.push(newToDo)
+        } else{
+            console.log("toDo is already in the list")
+        }
+    }
+
+    checkDuplicateToDo(newToDo){
+
+            let isDuplicate = this.toDoList.some((toDo)=>{
+            return toDo.uuid == newToDo.uuid
+        })
+        return isDuplicate
     }
 
     findIndextoDo(todDo){

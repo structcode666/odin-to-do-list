@@ -1,3 +1,5 @@
+import { storeProject } from "./storage";
+
 export function displayProject(project){
 
     const projects = document.querySelector(".projects")
@@ -10,34 +12,164 @@ export function displayProject(project){
 
 }
 
+let activeProject
+
+function createToDoButton(){
+
+
+    const maincontent = document.querySelector(".maincontent-verification")
+
+    if(!maincontent.querySelector('.new-to-do')){
+
+    const toDoButton = document.createElement("button")
+    toDoButton.classList.add("new-to-do")
+    toDoButton.innerHTML = "Add to Do"
+    maincontent.insertBefore(toDoButton, maincontent.firstChild)
+    }else{
+        return
+    }
+
+
+}
+
 export function setActiveProject(){
 
-    let activeProject
-
     const projectsContainer = document.querySelector(".projects")
-    const projects = document.querySelectorAll(".project")
+    // const projects = document.querySelectorAll(".project")
 
 
     projectsContainer.addEventListener('click', (e)=>{
         let clickedProject = e.target
 
         if(clickedProject.classList.contains("project")){
-            projects.forEach(project => project.classList.remove("active"))
+            projectsContainer.querySelectorAll(".project").forEach(project => project.classList.remove("active"))
             clickedProject.classList.add("active")
             activeProject = clickedProject.projectRef
-            console.log(`The active project is ${activeProject.projectName}`)
+            displayToDo(activeProject)
+            createToDoButton()
         }
+        
+
+    
+        
     })
+
+}
+
+export function getActiveProject(){
+
+    return activeProject;
 
 }
 
 
 export function displayToDo(project){
-    const main = document.querySelector(".maincontent-verification")
 
-    let toDoList = project.toDo
+    const toDoContainer = document.querySelector(".to-do-container")
+
+    toDoContainer.innerHTML = ""
+
+
+    let toDoList = project.toDoList
+
+    if(toDoList.length != 0 ){
+        toDoList.forEach((toDo)=>{
+        createProjectCard(toDo)
+    })
+
+    }
+
+    console.log(toDoList)
+
+   
+}
 
 
 
+
+
+function createProjectCard(toDo){
+    const toDoContainer = document.querySelector(".to-do-container")
+
+    //create project card//
+    let projectCard = document.createElement("div")
+    projectCard.classList.add("card")
+
+    //add Title to project card//
+    const projectTitle  = document.createElement("h5");
+    projectTitle.textContent = toDo.title;
+    projectTitle.classList.add("project-title")
+    projectCard.appendChild(projectTitle);
+
+    //add project description//
+    const projectDescription = document.createElement("div");
+    projectDescription.classList.add("project-description");
+    projectCard.appendChild(projectDescription)
+
+    const projectInfo = document.createElement("p");
+    projectInfo.textContent= toDo.description
+    projectDescription.appendChild(projectInfo)
+
+    const projectDueDate = document.createElement("p");
+    projectDueDate.textContent= `Due Date : ${toDo.formatDate()}`
+    projectDescription.appendChild(projectDueDate)
+
+    //add read checkbox//
+    const projectComplete= document.createElement("div");
+    projectComplete.classList.add("project-complete")
+    projectComplete.textContent = "Project Complete?"
+    const projectCheckBox = document.createElement("input");
+    projectCheckBox.type = 'checkbox';
+    projectCheckBox.classList.add("project-checkbox")
+    projectCheckBox.checked = toDo.complete
+    projectCheckBox.addEventListener("change", ()=>{
+
+        toDo.complete = projectCheckBox.checked;
+        let activeProject = getActiveProject();
+        storeProject(activeProject)
+    })
+   
+
+    projectComplete.appendChild(projectCheckBox)
+    projectDescription.appendChild(projectComplete)
+    toDoContainer.appendChild(projectCard)
+
+    //create delete button//
+    // const deleteIcon = document.createElement("img")
+    // deleteIcon.src = '../icons/delete.svg'
+    // deleteIcon.classList.add("delete-icon", book.id) 
+    // bookInfo.appendChild(deleteIcon);
+
+    // books.appendChild(bookCard)
+
+
+
+    // //add functionality to delete icon//
+    // deleteIcon.addEventListener('click', ()=>{
+
+    //     //remove bookCard from the DOM//
+    //     books.removeChild(bookCard);
+
+    //     //need to also remove from the lirary//
+    //     const index = myLibrary.findIndex(deletedBook => deletedBook.id ===book.id)
+
+    //     if(index !== -1){
+
+    //         myLibrary.splice(index, 1)
+    //     }
+
+    // })
+
+    // //dynamically change read status//
+    // bookCheckBox.addEventListener("change", () => {
+    //     if (bookCheckBox.checked) {
+    //         bookCard.style.borderLeft = "10px solid green";
+    //         book.read = "read"; // update book object
+    //     } else {
+    //         bookCard.style.borderLeft = "10px solid #fa8f04";
+    //         book.read = "unread";
+    //     }
+    // });
     
+
 }

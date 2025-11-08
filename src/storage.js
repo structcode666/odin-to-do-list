@@ -1,3 +1,7 @@
+import { Project } from "./projects";
+import { toDoItem } from "./toDo";
+import { displayProject, setActiveProject, getActiveProject, displayToDo} from "./dom";
+
 function storageAvailable(type) {
   let storage;
   try {
@@ -25,4 +29,55 @@ export function storeProject(project){
         console.log("Local storage not available")
     }
 }
+
+
+export function getProject(project){
+
+      if (storageAvailable("localStorage")) {
+        return JSON.parse(localStorage.getItem(project))
+    } else {
+        console.log("Local storage not available")
+    }
+
+
+}
+
+export function reconstructProject(projectObject){
+
+  let retreivedObject = getProject(projectObject.projectName);
+
+  let reconstructedProject = new Project (retreivedObject.projectName);
+
+  retreivedObject.toDoList.forEach((toDo)=>{
+
+    let newToDo = new toDoItem(toDo.title, toDo.description, toDo.dueDate, toDo.priority)
+
+    newToDo.complete = toDo.complete
+    reconstructedProject.addToDo(newToDo);
+  }
+  )
+
+
+  return reconstructedProject
+
+}
+
+export function localStorageProjects(){
+
+  let projectsList = []
+
+    if (storageAvailable("localStorage")) {
+        for (const key in localStorage){
+          if(localStorage.hasOwnProperty(key)){
+            let project = reconstructProject(getProject(key))
+            projectsList.push(project)
+          }
+        }
+    } else {
+        console.log("Local storage not available")
+    }
+
+    return projectsList
+}
+
 
