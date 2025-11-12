@@ -377,4 +377,26 @@ label{
 }
 
 
+.delete-icon {
+  height: 2.2rem;
+  width: 2.2rem;
+  margin-top: 1rem;
+  margin-left: auto;
+  display: block;
+  cursor: pointer;
+  filter: brightness(0) invert(1) drop-shadow(0 0 4px var(--accent-color));
+  opacity: 0.8;
+  transition: 
+    transform var(--transition-speed) ease,
+    filter var(--transition-speed) ease,
+    opacity var(--transition-speed) ease;
+}
+
+.delete-icon:hover {
+  transform: scale(1.15) rotate(8deg);
+  filter: brightness(1.5) drop-shadow(0 0 8px #FF2EED);
+  opacity: 1;
+}
+
+
 

@@ -1,4 +1,6 @@
 import { storeProject } from "./storage";
+import deleteImage from "../icons/delete.svg"
+
 
 export function displayProject(project){
 
@@ -47,6 +49,7 @@ export function setActiveProject(){
             activeProject = clickedProject.projectRef
             displayToDo(activeProject)
             createToDoButton()
+            console.log(activeProject.toDoList)
         }
         
 
@@ -79,7 +82,7 @@ export function displayToDo(project){
 
     }
 
-    console.log(toDoList)
+    // console.log(toDoList)
 
    
 }
@@ -130,46 +133,40 @@ function createProjectCard(toDo){
     })
    
 
+    //create delete button//
+    const deleteIcon = document.createElement("img")
+    deleteIcon.src = deleteImage
+    deleteIcon.classList.add("delete-icon", toDo.uuid) 
+    projectDescription.appendChild(deleteIcon);
+
     projectComplete.appendChild(projectCheckBox)
     projectDescription.appendChild(projectComplete)
     toDoContainer.appendChild(projectCard)
 
-    //create delete button//
-    // const deleteIcon = document.createElement("img")
-    // deleteIcon.src = '../icons/delete.svg'
-    // deleteIcon.classList.add("delete-icon", book.id) 
-    // bookInfo.appendChild(deleteIcon);
 
-    // books.appendChild(bookCard)
+
+   
 
 
 
-    // //add functionality to delete icon//
-    // deleteIcon.addEventListener('click', ()=>{
+    //add functionality to delete icon//
+    deleteIcon.addEventListener('click', ()=>{
 
-    //     //remove bookCard from the DOM//
-    //     books.removeChild(bookCard);
+        //remove bookCard from the DOM//
+        toDoContainer.removeChild(projectCard);
 
-    //     //need to also remove from the lirary//
-    //     const index = myLibrary.findIndex(deletedBook => deletedBook.id ===book.id)
+        //active project//
 
-    //     if(index !== -1){
+        let activeProject = getActiveProject();
 
-    //         myLibrary.splice(index, 1)
-    //     }
+        //need to also remove from the lirary//
 
-    // })
+        activeProject.deleteToDo(toDo);
+        console.log(activeProject.toDoList)
 
-    // //dynamically change read status//
-    // bookCheckBox.addEventListener("change", () => {
-    //     if (bookCheckBox.checked) {
-    //         bookCard.style.borderLeft = "10px solid green";
-    //         book.read = "read"; // update book object
-    //     } else {
-    //         bookCard.style.borderLeft = "10px solid #fa8f04";
-    //         book.read = "unread";
-    //     }
-    // });
+    })
+
+
     
 
 }
